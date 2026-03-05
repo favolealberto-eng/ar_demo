@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>EURIX - Demo Quadro Elettrico (Fix Testo)</title>
+    <title>EURIX - Demo Quadro Elettrico (Grid Layout)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     
@@ -26,16 +26,16 @@
         align-items: center; justify-content: center; font-family: sans-serif;
       }
       .hud-card {
-        background: #f8fafc; padding: 25px; border-radius: 12px;
-        width: 85%; max-width: 400px; color: #0f172a; position: relative;
+        background: #1e293b; padding: 25px; border-radius: 12px;
+        width: 85%; max-width: 400px; color: #f8fafc; position: relative;
         box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       }
       .close-btn {
         position: absolute; top: 15px; right: 15px; background: transparent;
-        color: #64748b; border: none; font-size: 24px; cursor: pointer;
+        color: #94a3b8; border: none; font-size: 24px; cursor: pointer;
       }
-      .hud-title { margin-top: 0; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; font-size: 20px; color: #0f172a;}
-      .hud-data { line-height: 1.8; color: #334155; white-space: pre-line; font-size: 16px; font-weight: bold;}
+      .hud-title { margin-top: 0; border-bottom: 2px solid #475569; padding-bottom: 10px; font-size: 20px; color: #0ea5e9;}
+      .hud-data { line-height: 1.8; color: #cbd5e1; white-space: pre-line; font-size: 16px; font-weight: normal;}
     </style>
 
     <script>
@@ -46,7 +46,7 @@
       const db_simulato = {
         "0": { 
             titolo: "QUADRO ELETTRICO Q-01", 
-            dati: "STATO INTERRUTTORI:\n\n[ A ] FM Uffici Linea 2: ON (2.4 kW)\n[ B ] FM Sala Riunioni: ON (1.1 kW)\n\nAllarmi: NESSUNO\nManutenzione: Regolare" 
+            dati: "STATO INTERRUTTORI:\n\n[ A ] FM Uffici Linea 2: ON (2.4 kW)\n[ B ] FM Sala Riunioni: ON (1.1 kW)\n[ C ] Sezioni A/B/C: OK\n\nAllarmi: NESSUNO\nManutenzione: Regolare" 
         }
       };
 
@@ -135,12 +135,23 @@
           
           <a-entity class="gruppo-pannelli">
             
-            <a-plane position="-1.833 2.416 0.1" width="1.833" height="0.416" material="color: #f8fafc; shader: flat;">
-              <a-text value="FM Uffici\nLinea 2" position="0 0 0.05" align="center" color="#0f172a" width="1.7" wrapCount="10" lineHeight="55"></a-text>
+            <a-plane position="-1.833 2.416 0.1" width="1.833" height="0.416" material="color: #1e293b; shader: flat;">
+              <a-text value="FM Uffici\nLinea 2" position="0 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10" lineHeight="55"></a-text>
             </a-plane>
 
-            <a-plane position="1.833 2.416 0.1" width="1.833" height="0.416" material="color: #f8fafc; shader: flat;">
-              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.05" align="center" color="#0f172a" width="1.7" wrapCount="11" lineHeight="55"></a-text>
+            <a-plane position="1.833 2.416 0.1" width="1.833" height="0.416" material="color: #1e293b; shader: flat;">
+              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="11" lineHeight="55"></a-text>
+            </a-plane>
+
+            <a-plane position="0 5.667 0.1" width="5.5" height="0.416" material="color: #1e293b; shader: flat;">
+              
+              <a-plane position="-0.916 0 0.01" width="0.015" height="0.416" material="color: #64748b; shader: flat;"></a-plane>
+              <a-plane position="0.916 0 0.01" width="0.015" height="0.416" material="color: #64748b; shader: flat;"></a-plane>
+
+              <a-text value="Sezione A" position="-1.833 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10"></a-text>
+              <a-text value="Sezione B" position="0 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10"></a-text>
+              <a-text value="Sezione C" position="1.833 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10"></a-text>
+              
             </a-plane>
 
           </a-entity>
