@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>EURIX - Quadro Elettrico (Stable Build)</title>
+    <title>EURIX - Demo Quadro Elettrico (Grid Layout)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     
@@ -55,8 +55,7 @@
 
         if(visibleMarkers.size === 1) {
             activeMarker = Array.from(visibleMarkers)[0];
-            let gruppo = activeMarker.querySelector('.gruppo-pannelli');
-            if(gruppo) gruppo.setAttribute('visible', 'true');
+            activeMarker.querySelector('.gruppo-pannelli').setAttribute('visible', 'true');
             document.getElementById('ui-container').style.display = 'flex';
         } else {
             activeMarker = null;
@@ -69,11 +68,10 @@
 
       AFRAME.registerComponent('marker-handler', {
         init: function () {
-          // Rimossa la logica di nascondimento da qui per evitare conflitti di caricamento
+          this.el.querySelector('.gruppo-pannelli').setAttribute('visible', 'false');
           this.el.addEventListener('markerFound', () => {
             visibleMarkers.add(this.el);
-            let gruppo = this.el.querySelector('.gruppo-pannelli');
-            if(gruppo) gruppo.setAttribute('scale', '1 1 1');
+            this.el.querySelector('.gruppo-pannelli').setAttribute('scale', '1 1 1');
             currentScale = 1;
             checkVisibility();
           });
@@ -135,16 +133,14 @@
         
         <a-entity rotation="-90 0 0">
           
-          <a-entity class="gruppo-pannelli" visible="false">
+          <a-entity class="gruppo-pannelli">
             
             <a-plane position="-1.833 2.416 0.1" width="1.833" height="0.416" material="color: #1e293b; shader: flat;">
-              <a-text value="FM Uffici\nLinea 2" position="0 0 0.05" align="center" color="#ffffff" 
-                      width="1.6" wrapCount="10" lineHeight="45"></a-text>
+              <a-text value="FM Uffici\nLinea 2" position="0 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10" lineHeight="55"></a-text>
             </a-plane>
 
             <a-plane position="1.833 2.416 0.1" width="1.833" height="0.416" material="color: #1e293b; shader: flat;">
-              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.05" align="center" color="#ffffff" 
-                      width="1.6" wrapCount="16" lineHeight="45"></a-text>
+              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="11" lineHeight="55"></a-text>
             </a-plane>
 
             <a-plane position="0 5.667 0.1" width="5.5" height="0.416" material="color: #1e293b; shader: flat;">
@@ -152,12 +148,9 @@
               <a-plane position="-0.916 0 0.01" width="0.015" height="0.416" material="color: #64748b; shader: flat;"></a-plane>
               <a-plane position="0.916 0 0.01" width="0.015" height="0.416" material="color: #64748b; shader: flat;"></a-plane>
 
-              <a-text value="Sezione A" position="-1.833 0 0.05" align="center" color="#ffffff" 
-                      width="1.5" wrapCount="9"></a-text>
-              <a-text value="Sezione B" position="0 0 0.05" align="center" color="#ffffff" 
-                      width="1.5" wrapCount="9"></a-text>
-              <a-text value="Sezione C" position="1.833 0 0.05" align="center" color="#ffffff" 
-                      width="1.5" wrapCount="9"></a-text>
+              <a-text value="Sezione A" position="-1.833 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10"></a-text>
+              <a-text value="Sezione B" position="0 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10"></a-text>
+              <a-text value="Sezione C" position="1.833 0 0.05" align="center" color="#ffffff" width="1.7" wrapCount="10"></a-text>
               
             </a-plane>
 
