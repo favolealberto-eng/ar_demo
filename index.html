@@ -1,41 +1,78 @@
-<a-scene embedded 
-             arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; debugUIEnabled: false;"
-             renderer="antialias: true;">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>EURIX - Demo Quadro Elettrico (Ottimizzata Finale)</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <style>
+      #ui-container {
+        display: none; position: fixed; bottom: 30px; left: 20px; 
+        flex-direction: column; align-items: flex-start; gap: 12px; 
+        z-index: 99999; pointer-events: none; 
+      }
+      .btn {
+        background: #0ea5e9; color: white; border: none; padding: 14px 20px;
+        border-radius: 8px; font-weight: bold; font-family: sans-serif;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.5); cursor: pointer;
+        pointer-events: auto; width: 180px; text-align: center; font-size: 14px;
+      }
+      .btn-freeze { background: #f97316; }
       
-      <a-marker type="barcode" value="0" marker-handler smooth="true" smoothCount="15" smoothTolerance="0.04" smoothThreshold="5">
-        
-        <a-entity rotation="-90 0 0">
-          
-          <a-entity class="gruppo-pannelli">
-            
-            <a-plane position="-1.833 2.416 0.1" width="1.833" height="0.416" material="color: #1e293b; shader: flat;">
-              <a-text value="FM Uffici\nLinea 2" position="0 0 0.05" align="center" color="#ffffff" 
-                      width="1.65" wrapCount="9.5" lineHeight="45"></a-text>
-            </a-plane>
+      #hud-modal {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85); z-index: 999999;
+        align-items: center; justify-content: center; font-family: sans-serif;
+      }
+      .hud-card {
+        background: #1e293b; padding: 25px; border-radius: 12px;
+        width: 85%; max-width: 400px; color: #f8fafc; position: relative;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      }
+      .close-btn {
+        position: absolute; top: 15px; right: 15px; background: transparent;
+        color: #94a3b8; border: none; font-size: 24px; cursor: pointer;
+      }
+      .hud-title { margin-top: 0; border-bottom: 2px solid #475569; padding-bottom: 10px; font-size: 20px; color: #0ea5e9;}
+      .hud-data { line-height: 1.8; color: #cbd5e1; white-space: pre-line; font-size: 16px; font-weight: normal;}
+    </style>
 
-            <a-plane position="1.833 2.416 0.1" width="1.833" height="0.416" material="color: #1e293b; shader: flat;">
-              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.05" align="center" color="#ffffff" 
-                      width="1.65" wrapCount="16.5" lineHeight="45"></a-text>
-            </a-plane>
+    <script>
+      let visibleMarkers = new Set();
+      let activeMarker = null;
+      let currentScale = 1;
 
-            <a-plane position="0 5.667 0.1" width="5.5" height="0.416" material="color: #1e293b; shader: flat;">
-              
-              <a-plane position="-0.916 0 0.01" width="0.015" height="0.416" material="color: #64748b; shader: flat;"></a-plane>
-              <a-plane position="0.916 0 0.01" width="0.015" height="0.416" material="color: #64748b; shader: flat;"></a-plane>
+      const db_simulato = {
+        "0": { 
+            titolo: "QUADRO ELETTRICO Q-01", 
+            dati: "STATO INTERRUTTORI:\n\n[ A ] FM Uffici Linea 2: ON (2.4 kW)\n[ B ] FM Sala Riunioni: ON (1.1 kW)\n[ C ] Sezioni A/B/C: OK\n\nAllarmi: NESSUNO\nManutenzione: Regolare" 
+        }
+      };
 
-              <a-text value="Sezione A" position="-1.833 0 0.05" align="center" color="#ffffff" 
-                      width="1.6" wrapCount="9.5"></a-text>
-              <a-text value="Sezione B" position="0 0 0.05" align="center" color="#ffffff" 
-                      width="1.6" wrapCount="9.5"></a-text>
-              <a-text value="Sezione C" position="1.833 0 0.05" align="center" color="#ffffff" 
-                      width="1.6" wrapCount="9.5"></a-text>
-              
-            </a-plane>
+      function checkVisibility() {
+        if(document.getElementById('hud-modal').style.display === 'flex') return;
 
-          </a-entity>
+        if(visibleMarkers.size === 1) {
+            activeMarker = Array.from(visibleMarkers)[0];
+            activeMarker.querySelector('.gruppo-pannelli').setAttribute('visible', 'true');
+            document.getElementById('ui-container').style.display = 'flex';
+        } else {
+            activeMarker = null;
+            document.getElementById('ui-container').style.display = 'none';
+            document.querySelectorAll('.gruppo-pannelli').forEach(el => {
+                el.setAttribute('visible', 'false');
+            });
+        }
+      }
 
-        </a-entity>
-      </a-marker>
-
-      <a-entity camera look-controls="enabled: false" wasd-controls="enabled: false"></a-entity>
-    </a-scene>
+      AFRAME.registerComponent('marker-handler', {
+        init: function () {
+          this.el.querySelector('.gruppo-pannelli').setAttribute('visible', 'false');
+          this.el.addEventListener('markerFound', () => {
+            visibleMarkers.add(this.el);
+            this.el.querySelector('.gruppo-pannelli').setAttribute('scale', '1 1 1');
+            currentScale = 1;
+            checkVisibility();
+          });
+          this.el.addEventListener('markerLost', ()
