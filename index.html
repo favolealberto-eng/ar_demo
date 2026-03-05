@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>EURIX - Demo Quadro Elettrico (Anti-Aliasing)</title>
+    <title>EURIX - Demo Quadro Elettrico (Fix Testo)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     
@@ -127,7 +127,7 @@
 
     <a-scene embedded 
              arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; debugUIEnabled: false;"
-             renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true;">
+             renderer="antialias: true;">
       
       <a-marker type="barcode" value="0" marker-handler smooth="true" smoothCount="15" smoothTolerance="0.04" smoothThreshold="5">
         
@@ -136,11 +136,11 @@
           <a-entity class="gruppo-pannelli">
             
             <a-plane position="-1.833 2.416 0.1" width="1.833" height="0.416" material="color: #f8fafc; shader: flat;">
-              <a-text value="FM Uffici\nLinea 2" position="0 0 0.15" align="center" color="#0f172a" width="1.7" wrapCount="10" lineHeight="55"></a-text>
+              <a-text value="FM Uffici\nLinea 2" position="0 0 0.05" align="center" color="#0f172a" width="1.7" wrapCount="10" lineHeight="55"></a-text>
             </a-plane>
 
             <a-plane position="1.833 2.416 0.1" width="1.833" height="0.416" material="color: #f8fafc; shader: flat;">
-              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.15" align="center" color="#0f172a" width="1.7" wrapCount="11" lineHeight="55"></a-text>
+              <a-text value="FM Sala Riunioni\n+ Disimpegno" position="0 0 0.05" align="center" color="#0f172a" width="1.7" wrapCount="11" lineHeight="55"></a-text>
             </a-plane>
 
           </a-entity>
